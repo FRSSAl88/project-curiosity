@@ -6,7 +6,7 @@ function App() {
 
   const showDiscovery = () => {
   const randomIndex = Math.floor(Math.random() * discoveries.length);
-  setDiscovery(discoveries[randomIndex]);
+  setDiscovery(discoveries[randomIndex].text);
 };
 
   return (
