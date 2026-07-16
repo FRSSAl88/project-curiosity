@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-
+import discoveries from "./data/discoveries";
 function App() {
   const [discovery, setDiscovery] = useState('')
 
   const showDiscovery = () => {
-    setDiscovery(
-      "Octopuses have three hearts... and somehow still avoid drama."
-    )
-  }
+  const randomIndex = Math.floor(Math.random() * discoveries.length);
+  setDiscovery(discoveries[randomIndex]);
+};
 
   return (
     <div className="nexta-container">
