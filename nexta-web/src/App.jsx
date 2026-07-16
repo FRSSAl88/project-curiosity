@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import './App.css'
 import discoveries from "./data/discoveries";
+import { chooseDiscovery } from "./engine/intelligence";
+
 function App() {
-  const [discovery, setDiscovery] = useState('')
+  const [discovery, setDiscovery] = useState(null);
 
   const showDiscovery = () => {
-  const randomIndex = Math.floor(Math.random() * discoveries.length);
-  setDiscovery(discoveries[randomIndex].text);
-};
+    const selected = chooseDiscovery(discoveries, discovery);
+    setDiscovery(selected);
+  };
 
   return (
     <div className="nexta-container">
@@ -17,14 +19,16 @@ function App() {
         Never know what's next.
       </p>
 
-      <button 
+      <button
         className="next-button"
         onClick={showDiscovery}
       >
         NEXT
       </button>
 
-      <p>{discovery}</p>
+      {discovery && (
+        <p>{discovery.text}</p>
+      )}
     </div>
   )
 }
