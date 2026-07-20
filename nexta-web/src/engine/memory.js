@@ -1,7 +1,13 @@
 const memory = {
+  totalClicks: 0,
+
   seenDiscoveries: [],
+
   categoryScores: {},
-  interactionCount: 0
+
+  lastDiscovery: null,
+
+  rareCounter: 0
 };
 
 export function getMemory() {
@@ -11,11 +17,14 @@ export function getMemory() {
 export function updateMemory(discovery) {
   if (!discovery) return;
 
-  memory.interactionCount++;
+  memory.totalClicks++;
+  memory.rareCounter++;
 
   if (!memory.seenDiscoveries.includes(discovery.id)) {
     memory.seenDiscoveries.push(discovery.id);
   }
+
+  memory.lastDiscovery = discovery.id;
 
   const category = discovery.category;
 
@@ -24,4 +33,12 @@ export function updateMemory(discovery) {
   }
 
   memory.categoryScores[category]++;
+}
+
+export function resetMemory() {
+  memory.totalClicks = 0;
+  memory.seenDiscoveries = [];
+  memory.categoryScores = {};
+  memory.lastDiscovery = null;
+  memory.rareCounter = 0;
 }

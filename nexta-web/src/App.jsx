@@ -3,16 +3,18 @@ import "./App.css";
 
 import discoveries from "./data/discoveries";
 import { chooseDiscovery } from "./engine/intelligence";
-import { updateMemory } from "./engine/memory";
+import { updateMemory, getMemory } from "./engine/memory";
 
 function App() {
   const [discovery, setDiscovery] = useState(null);
+
+  const memory = getMemory();
 
   const showDiscovery = () => {
     const selected = chooseDiscovery(discoveries);
 
     setDiscovery(selected);
-  updateMemory(selected);
+    updateMemory(selected);
   };
 
   return (
@@ -32,9 +34,34 @@ function App() {
 
       {discovery && (
         <p>
-       {discovery.displayText ||discovery.content.en}
+          {discovery.displayText || discovery.content.en}
         </p>
       )}
+
+      <div className="developer-panel">
+        <h3>NEXTA MEMORY</h3>
+
+        <p>
+          Total Clicks: {memory.totalClicks}
+        </p>
+
+        <p>
+          Last Discovery: {memory.lastDiscovery || "None"}
+        </p>
+
+        <p>
+          Seen: {memory.seenDiscoveries.length}
+        </p>
+
+        <p>
+          Rare Counter: {memory.rareCounter}
+        </p>
+
+        <p>
+          Categories: {JSON.stringify(memory.categoryScores)}
+        </p>
+      </div>
+
     </div>
   );
 }
