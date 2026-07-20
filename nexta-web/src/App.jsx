@@ -3,17 +3,16 @@ import "./App.css";
 
 import discoveries from "./data/discoveries";
 import { chooseDiscovery } from "./engine/intelligence";
+import { updateMemory } from "./engine/memory";
 
 function App() {
   const [discovery, setDiscovery] = useState(null);
 
   const showDiscovery = () => {
-    const selected = chooseDiscovery(
-      discoveries,
-      discovery
-    );
+    const selected = chooseDiscovery(discoveries);
 
     setDiscovery(selected);
+    updateMemory(selected);
   };
 
   return (
@@ -36,7 +35,6 @@ function App() {
           {discovery.content.en}
         </p>
       )}
-
     </div>
   );
 }

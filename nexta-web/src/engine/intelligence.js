@@ -1,24 +1,26 @@
-export function chooseDiscovery(
-  discoveries,
-  lastDiscovery = null
-) {
+import { getMemory } from "./memory";
+import { calculateScore } from "./scoring";
+
+export function chooseDiscovery(discoveries) {
   if (!discoveries || discoveries.length === 0) {
     return null;
   }
 
-  let availableDiscoveries = discoveries.filter(
-    (item) => item.active
-  );
+  const memory = getMemory();
 
-  if (lastDiscovery && availableDiscoveries.length > 1) {
-    availableDiscoveries = availableDiscoveries.filter(
-      (item) => item.id !== lastDiscovery.id
-    );
-  }
+  const rankedDiscoveries = discoveries
+    .filter((item) => item.active)
+    .map((item) => ({
+      ...item,
+      score: calculateScore(item, memory),
+    }))
+    .sort((a, b) => b.score - a.score);
+
+  const topChoices = rankedDiscoveries.slice(0, 3);
 
   const randomIndex = Math.floor(
-    Math.random() * availableDiscoveries.length
+    Math.random() * topChoices.length
   );
 
-  return availableDiscoveries[randomIndex];
+  return topChoices[randomIndex];
 }
