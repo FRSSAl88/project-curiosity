@@ -8,7 +8,8 @@ const discoveries = [
     },
     category: "animals",
     difficulty: 1,
-    rarity:"normal",
+    rarity: "normal",
+    depth: "surface",
     tags: ["ocean", "biology", "octopus"],
     source: "",
     active: true
@@ -23,7 +24,8 @@ const discoveries = [
     },
     category: "science",
     difficulty: 1,
-    rarity:"normal",
+    rarity: "normal",
+    depth: "surface",
     tags: ["plants", "nature"],
     source: "",
     active: true
@@ -38,7 +40,8 @@ const discoveries = [
     },
     category: "animals",
     difficulty: 1,
-    rarity:"normal",
+    rarity: "normal",
+    depth: "deep",
     tags: ["giraffe", "wildlife"],
     source: "",
     active: true
@@ -53,7 +56,8 @@ const discoveries = [
     },
     category: "human",
     difficulty: 2,
-    rarity:"normal",
+    rarity: "normal",
+    depth: "deep",
     tags: ["brain", "biology"],
     source: "",
     active: true
@@ -68,11 +72,12 @@ const discoveries = [
     },
     category: "space",
     difficulty: 2,
-    rarity:"rare",
+    rarity: "rare",
+    depth: "hidden",
     tags: ["universe", "astronomy"],
     source: "",
     active: true
   }
-  ];
+];
 
 export default discoveries;

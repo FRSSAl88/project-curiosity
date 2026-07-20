@@ -56,5 +56,25 @@ export function chooseDiscovery(discoveries) {
     Math.random() * topChoices.length
   );
 
-  return addPersonality(topChoices[randomIndex], memory);
+  const selected = topChoices[randomIndex];
+
+
+  // Save Nexta's decision
+  memory.decisionLog = {
+    selected: selected.id,
+    score: selected.score,
+    reasons: [
+      `Category interest: ${
+        memory.categoryScores[selected.category] || 0
+      }`,
+      `Depth: ${selected.depth || "unknown"}`,
+      `Rarity: ${selected.rarity}`,
+      `Curiosity level: ${
+        memory.profile.curiosityLevel
+      }`
+    ]
+  };
+
+
+  return addPersonality(selected, memory);
 }
