@@ -1,8 +1,15 @@
 const introductions = [
   "Nexta found something you probably didn't know.",
   "Your curiosity brought you here. Don't blame us.",
-  "Warning: this fact may change how you see the world.",
+  "Warning: this fact may disturb your normal thinking.",
   "Another useless piece of knowledge you will remember forever."
+];
+
+const rareIntroductions = [
+  "🔒 RARE DISCOVERY UNLOCKED.",
+  "✨ You found something unusual.",
+  "🚨 Nexta detected a rare piece of knowledge.",
+  "🧠 This one doesn't appear often."
 ];
 
 const endings = [
@@ -13,13 +20,17 @@ const endings = [
 ];
 
 export function addPersonality(discovery) {
-  if (!discovery) {
-    return null;
-  }
+  if (!discovery) return null;
+
+  const isRare = discovery.rarity === "rare";
+
+  const introList = isRare
+    ? rareIntroductions
+    : introductions;
 
   const intro =
-    introductions[
-      Math.floor(Math.random() * introductions.length)
+    introList[
+      Math.floor(Math.random() * introList.length)
     ];
 
   const ending =
