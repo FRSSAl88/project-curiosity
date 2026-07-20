@@ -1,4 +1,7 @@
-const memory = {
+import { loadMemory, saveMemory } from "./storage.js";
+
+
+const defaultMemory = {
   totalClicks: 0,
 
   seenDiscoveries: [],
@@ -24,8 +27,24 @@ const memory = {
     selected: null,
     score: null,
     reasons: []
+  },
+
+  feedback: {
+    likes: 0,
+    dislikes: 0,
+    categoryFeedback: {}
   }
 };
+
+
+const memory = loadMemory() || defaultMemory;
+
+
+
+function save() {
+  saveMemory(memory);
+}
+
 
 
 export function getMemory() {
@@ -33,15 +52,20 @@ export function getMemory() {
 }
 
 
+
 export function updateMemory(discovery) {
+
   if (!discovery) return;
+
 
   const now = Date.now();
 
-  // Track user behavior
+
   if (memory.behavior.lastClickTime) {
+
     const clickDifference =
       now - memory.behavior.lastClickTime;
+
 
     memory.behavior.averageClickSpeed =
       Math.round(
@@ -51,6 +75,7 @@ export function updateMemory(discovery) {
         ) / 2
       );
   }
+
 
   memory.behavior.lastClickTime = now;
 
@@ -79,20 +104,21 @@ export function updateMemory(discovery) {
   memory.categoryScores[category]++;
 
 
-  // Update curiosity level
   memory.profile.curiosityLevel =
     memory.totalClicks;
 
 
-  // Find favorite category
+
   let highestCategory = null;
   let highestScore = 0;
 
 
   for (const item in memory.categoryScores) {
+
     if (
       memory.categoryScores[item] > highestScore
     ) {
+
       highestScore =
         memory.categoryScores[item];
 
@@ -103,39 +129,70 @@ export function updateMemory(discovery) {
 
   memory.profile.favoriteCategory =
     highestCategory;
+
+
+  save();
 }
+
+
+
+
+export function updateFeedback(discovery, type) {
+
+  if (!discovery) return;
+
+
+  const category = discovery.category;
+
+
+  if (type === "like") {
+    memory.feedback.likes++;
+  }
+
+
+  if (type === "dislike") {
+    memory.feedback.dislikes++;
+  }
+
+
+
+  if (!memory.feedback.categoryFeedback[category]) {
+
+    memory.feedback.categoryFeedback[category] = {
+      likes: 0,
+      dislikes: 0
+    };
+  }
+
+
+
+  if (type === "like") {
+
+    memory.feedback.categoryFeedback[category].likes++;
+
+  }
+
+
+  if (type === "dislike") {
+
+    memory.feedback.categoryFeedback[category].dislikes++;
+
+  }
+
+
+  save();
+}
+
 
 
 
 export function resetMemory() {
 
-  memory.totalClicks = 0;
-
-  memory.seenDiscoveries = [];
-
-  memory.categoryScores = {};
-
-  memory.lastDiscovery = null;
-
-  memory.rareCounter = 0;
+  Object.assign(
+    memory,
+    JSON.parse(JSON.stringify(defaultMemory))
+  );
 
 
-  memory.profile = {
-    favoriteCategory: null,
-    curiosityLevel: 0
-  };
-
-
-  memory.behavior = {
-    sessionStart: Date.now(),
-    lastClickTime: null,
-    averageClickSpeed: 0
-  };
-
-
-  memory.decisionLog = {
-    selected: null,
-    score: null,
-    reasons: []
-  };
+  save();
 }

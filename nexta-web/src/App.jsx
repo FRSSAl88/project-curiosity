@@ -3,7 +3,11 @@ import "./App.css";
 
 import discoveries from "./data/discoveries";
 import { chooseDiscovery } from "./engine/intelligence";
-import { updateMemory, getMemory } from "./engine/memory";
+import {
+  updateMemory,
+  getMemory,
+  updateFeedback
+} from "./engine/memory";
 
 
 function App() {
@@ -24,14 +28,27 @@ function App() {
   };
 
 
+
+  const sendFeedback = (type) => {
+
+    updateFeedback(discovery, type);
+
+    setMemory({ ...getMemory() });
+  };
+
+
+
   return (
     <div className="nexta-container">
 
+
       <h1>NEXTA</h1>
+
 
       <p className="tagline">
         Never know what's next.
       </p>
+
 
 
       <button
@@ -42,16 +59,44 @@ function App() {
       </button>
 
 
+
       {discovery && (
-        <p>
-          {discovery.displayText ||
-          discovery.content.en}
-        </p>
+
+        <>
+
+          <p>
+            {discovery.displayText ||
+            discovery.content.en}
+          </p>
+
+
+          <div className="feedback-buttons">
+
+            <button
+              onClick={() => sendFeedback("like")}
+            >
+              👍 Interesting
+            </button>
+
+
+            <button
+              onClick={() => sendFeedback("dislike")}
+            >
+              👎 Not for me
+            </button>
+
+          </div>
+
+        </>
+
       )}
 
 
 
+
+
       <div className="developer-panel">
+
 
         <h3>NEXTA MEMORY</h3>
 
@@ -118,28 +163,29 @@ function App() {
         <p>
           Score:
           {
-            memory.decisionLog.score ||
-            0
+            memory.decisionLog.score || 0
+          }
+        </p>
+
+
+        <h4>Feedback</h4>
+
+
+        <p>
+          👍 Likes:
+          {
+            memory.feedback.likes
           }
         </p>
 
 
         <p>
-          Reasons:
+          👎 Dislikes:
+          {
+            memory.feedback.dislikes
+          }
         </p>
 
-
-        <ul>
-          {
-            memory.decisionLog.reasons.map(
-              (reason, index) => (
-                <li key={index}>
-                  {reason}
-                </li>
-              )
-            )
-          }
-        </ul>
 
 
       </div>
