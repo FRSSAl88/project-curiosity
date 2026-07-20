@@ -12,7 +12,7 @@ function App() {
     const selected = chooseDiscovery(discoveries);
 
     setDiscovery(selected);
-    updateMemory(selected);
+  updateMemory(selected);
   };
 
   return (
@@ -32,7 +32,7 @@ function App() {
 
       {discovery && (
         <p>
-          {discovery.content.en}
+       {discovery.displayText ||discovery.content.en}
         </p>
       )}
     </div>

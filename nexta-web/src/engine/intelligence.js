@@ -1,5 +1,6 @@
-import { getMemory } from "./memory";
-import { calculateScore } from "./scoring";
+import { getMemory } from "./memory.js";
+import { calculateScore } from "./scoring.js";
+import { addPersonality } from "./personality.js";
 
 export function chooseDiscovery(discoveries) {
   if (!discoveries || discoveries.length === 0) {
@@ -18,9 +19,13 @@ export function chooseDiscovery(discoveries) {
 
   const topChoices = rankedDiscoveries.slice(0, 3);
 
+  if (topChoices.length === 0) {
+    return null;
+  }
+
   const randomIndex = Math.floor(
     Math.random() * topChoices.length
   );
 
-  return topChoices[randomIndex];
+  return addPersonality(topChoices[randomIndex]);
 }

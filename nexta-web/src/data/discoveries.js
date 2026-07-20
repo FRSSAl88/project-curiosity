@@ -68,6 +68,6 @@ const discoveries = [
     source: "",
     active: true
   }
-];
-
+  ];
+  
 export default discoveries;
