@@ -56,5 +56,5 @@ export function chooseDiscovery(discoveries) {
     Math.random() * topChoices.length
   );
 
-  return addPersonality(topChoices[randomIndex]);
+  return addPersonality(topChoices[randomIndex], memory);
 }

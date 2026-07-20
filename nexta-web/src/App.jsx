@@ -56,6 +56,12 @@ function App() {
         <p>
           Rare Counter: {memory.rareCounter}
         </p>
+
+<p>
+  Average Click Speed:
+  {memory.behavior.averageClickSpeed || 0} ms
+</p>
+
 <p>
   Favorite Category:
   {memory.profile.favoriteCategory || "None"}

@@ -12,6 +12,12 @@ const memory = {
   profile: {
     favoriteCategory: null,
     curiosityLevel: 0
+  },
+
+  behavior: {
+    sessionStart: Date.now(),
+    lastClickTime: null,
+    averageClickSpeed: 0
   }
 };
 
@@ -21,6 +27,24 @@ export function getMemory() {
 
 export function updateMemory(discovery) {
   if (!discovery) return;
+
+  const now = Date.now();
+
+  // Track user behavior
+  if (memory.behavior.lastClickTime) {
+    const clickDifference =
+      now - memory.behavior.lastClickTime;
+
+    memory.behavior.averageClickSpeed =
+      Math.round(
+        (
+          memory.behavior.averageClickSpeed +
+          clickDifference
+        ) / 2
+      );
+  }
+
+  memory.behavior.lastClickTime = now;
 
   memory.totalClicks++;
   memory.rareCounter++;
@@ -67,5 +91,11 @@ export function resetMemory() {
   memory.profile = {
     favoriteCategory: null,
     curiosityLevel: 0
+  };
+
+  memory.behavior = {
+    sessionStart: Date.now(),
+    lastClickTime: null,
+    averageClickSpeed: 0
   };
 }
