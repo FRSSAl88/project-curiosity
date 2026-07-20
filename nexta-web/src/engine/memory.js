@@ -7,7 +7,12 @@ const memory = {
 
   lastDiscovery: null,
 
-  rareCounter: 0
+  rareCounter: 0,
+
+  profile: {
+    favoriteCategory: null,
+    curiosityLevel: 0
+  }
 };
 
 export function getMemory() {
@@ -33,6 +38,23 @@ export function updateMemory(discovery) {
   }
 
   memory.categoryScores[category]++;
+
+  // Update curiosity level
+  memory.profile.curiosityLevel =
+    memory.totalClicks;
+
+  // Find favorite category
+  let highestCategory = null;
+  let highestScore = 0;
+
+  for (const item in memory.categoryScores) {
+    if (memory.categoryScores[item] > highestScore) {
+      highestScore = memory.categoryScores[item];
+      highestCategory = item;
+    }
+  }
+
+  memory.profile.favoriteCategory = highestCategory;
 }
 
 export function resetMemory() {
@@ -41,4 +63,9 @@ export function resetMemory() {
   memory.categoryScores = {};
   memory.lastDiscovery = null;
   memory.rareCounter = 0;
+
+  memory.profile = {
+    favoriteCategory: null,
+    curiosityLevel: 0
+  };
 }

@@ -56,7 +56,15 @@ function App() {
         <p>
           Rare Counter: {memory.rareCounter}
         </p>
+<p>
+  Favorite Category:
+  {memory.profile.favoriteCategory || "None"}
+</p>
 
+<p>
+  Curiosity Level:
+  {memory.profile.curiosityLevel}
+</p>
         <p>
           Categories: {JSON.stringify(memory.categoryScores)}
         </p>
