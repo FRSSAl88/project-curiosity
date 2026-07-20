@@ -9,8 +9,37 @@ export function chooseDiscovery(discoveries) {
 
   const memory = getMemory();
 
-  const rankedDiscoveries = discoveries
-    .filter((item) => item.active)
+  const activeDiscoveries = discoveries.filter(
+    (item) => item.active
+  );
+
+  const rareDiscoveries = activeDiscoveries.filter(
+    (item) => item.rarity === "rare"
+  );
+
+  const normalDiscoveries = activeDiscoveries.filter(
+    (item) => item.rarity !== "rare"
+  );
+
+  let selectedPool = normalDiscoveries;
+
+  let rareChance = 0.01;
+
+  if (memory.totalClicks > 10) {
+    rareChance = 0.10;
+  }
+
+  if (memory.totalClicks > 50) {
+    rareChance = 0.25;
+  }
+
+  const showRare = Math.random() < rareChance;
+
+  if (showRare && rareDiscoveries.length > 0) {
+    selectedPool = rareDiscoveries;
+  }
+
+  const rankedDiscoveries = selectedPool
     .map((item) => ({
       ...item,
       score: calculateScore(item, memory),
