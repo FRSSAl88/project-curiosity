@@ -1,13 +1,18 @@
-export function chooseDiscovery(discoveries, lastDiscovery = null) {
+export function chooseDiscovery(
+  discoveries,
+  lastDiscovery = null
+) {
   if (!discoveries || discoveries.length === 0) {
     return null;
   }
 
-  let availableDiscoveries = discoveries;
+  let availableDiscoveries = discoveries.filter(
+    (item) => item.active
+  );
 
-  if (lastDiscovery && discoveries.length > 1) {
-    availableDiscoveries = discoveries.filter(
-      (item) => item.text !== lastDiscovery.text
+  if (lastDiscovery && availableDiscoveries.length > 1) {
+    availableDiscoveries = availableDiscoveries.filter(
+      (item) => item.id !== lastDiscovery.id
     );
   }
 
@@ -15,6 +20,5 @@ export function chooseDiscovery(discoveries, lastDiscovery = null) {
     Math.random() * availableDiscoveries.length
   );
 
-  return availableDiscoveries[randomIndex]
-  ;
+  return availableDiscoveries[randomIndex];
 }

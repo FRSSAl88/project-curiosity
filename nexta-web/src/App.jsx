@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+
 import discoveries from "./data/discoveries";
 import { chooseDiscovery } from "./engine/intelligence";
 
@@ -7,7 +8,11 @@ function App() {
   const [discovery, setDiscovery] = useState(null);
 
   const showDiscovery = () => {
-    const selected = chooseDiscovery(discoveries, discovery);
+    const selected = chooseDiscovery(
+      discoveries,
+      discovery
+    );
+
     setDiscovery(selected);
   };
 
@@ -27,10 +32,13 @@ function App() {
       </button>
 
       {discovery && (
-        <p>{discovery.text}</p>
+        <p>
+          {discovery.content.en}
+        </p>
       )}
+
     </div>
-  )
+  );
 }
 
 export default App;

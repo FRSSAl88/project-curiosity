@@ -1,23 +1,72 @@
 const discoveries = [
   {
-    text: "🐙 Octopuses have three hearts... and somehow still avoid drama.",
-    category: "fact"
+    id: "d001",
+    content: {
+      en: "🐙 Octopuses have three hearts... and somehow still avoid drama.",
+      ar: "",
+      da: ""
+    },
+    category: "animals",
+    difficulty: 1,
+    tags: ["ocean", "biology", "octopus"],
+    source: "",
+    active: true
   },
+
   {
-    text: "🍌 Bananas are berries. Strawberries aren't. Nature enjoys confusing us.",
-    category: "fact"
+    id: "d002",
+    content: {
+      en: "🍌 Bananas are berries. Strawberries aren't. Nature enjoys confusing us.",
+      ar: "",
+      da: ""
+    },
+    category: "science",
+    difficulty: 1,
+    tags: ["plants", "nature"],
+    source: "",
+    active: true
   },
+
   {
-    text: "😂 Some people set alarms just to ignore them five times.",
-    category: "humor"
+    id: "d003",
+    content: {
+      en: "🦒 A giraffe cleans its ears with its 50 cm tongue.",
+      ar: "",
+      da: ""
+    },
+    category: "animals",
+    difficulty: 1,
+    tags: ["giraffe", "wildlife"],
+    source: "",
+    active: true
   },
+
   {
-    text: "🤔 If you could know the answer to one mystery, what would it be?",
-    category: "thought"
+    id: "d004",
+    content: {
+      en: "🤯 Your brain uses about 20% of your body's energy.",
+      ar: "",
+      da: ""
+    },
+    category: "human",
+    difficulty: 2,
+    tags: ["brain", "biology"],
+    source: "",
+    active: true
   },
+
   {
-    text: "🌌 There are more stars in the universe than grains of sand on Earth.",
-    category: "rare"
+    id: "d005",
+    content: {
+      en: "🌌 There are more stars in the universe than grains of sand on Earth.",
+      ar: "",
+      da: ""
+    },
+    category: "space",
+    difficulty: 2,
+    tags: ["universe", "astronomy"],
+    source: "",
+    active: true
   }
 ];
 
