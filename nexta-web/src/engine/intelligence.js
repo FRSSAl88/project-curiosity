@@ -13,11 +13,9 @@ export function chooseDiscovery(discoveries) {
   const memory = getMemory();
 
 
-
   const activeDiscoveries = discoveries.filter(
     (item) => item.active
   );
-
 
 
   const rareDiscoveries = activeDiscoveries.filter(
@@ -25,15 +23,12 @@ export function chooseDiscovery(discoveries) {
   );
 
 
-
   const normalDiscoveries = activeDiscoveries.filter(
     (item) => item.rarity !== "rare"
   );
 
 
-
   let selectedPool = normalDiscoveries;
-
 
 
   let rareChance = 0.01;
@@ -47,7 +42,7 @@ export function chooseDiscovery(discoveries) {
   if (memory.totalClicks > 50) {
     rareChance = 0.25;
   }
-
+ 
 
 
   if (
@@ -55,42 +50,29 @@ export function chooseDiscovery(discoveries) {
     rareDiscoveries.length > 0
   ) {
 
+ 
     selectedPool = rareDiscoveries;
-
+  
   }
 
 
 
   const rankedDiscoveries = selectedPool
+ 
+  .map((item) => {
 
-    .map((item) => {
-
-      const score =
-        calculateScore(item, memory);
-
+      const score = calculateScore(item, memory);
 
       return {
 
         ...item,
-
         score
-
       };
 
     })
+    .sort((a, b) => b.score - a.score);
 
-
-    .sort(
-      (a, b) =>
-        b.score - a.score
-    );
-
-
-
-
-  const topChoices =
-    rankedDiscoveries.slice(0, 3);
-
+  const topChoices = rankedDiscoveries.slice(0, 3);
 
 
   if (topChoices.length === 0) {
@@ -98,90 +80,39 @@ export function chooseDiscovery(discoveries) {
   }
 
 
-
-
-  const randomIndex =
-    Math.floor(
-      Math.random() *
-      topChoices.length
-    );
-
-
-
   const selected =
-    topChoices[randomIndex];
+    topChoices[
+      Math.floor(
+        Math.random() * topChoices.length
+      )
+    ];
 
 
+const reasons = [];
 
+reasons.push(`Category: ${selected.category}`);
 
-  // Save decision explanation
+if (selected.tags) {
+  selected.tags.forEach((tag) => {
+    reasons.push(`Tag: ${tag}`);
+  });
+}
 
-  memory.decisionLog.selected =
-    selected.id;
+reasons.push(`Score: ${selected.score}`);
 
+if (selected.rarity === "rare") {
+  reasons.push("⭐ Rare discovery");
+}
 
-  memory.decisionLog.score =
-    selected.score;
-
-
-
-  memory.decisionLog.reasons = [];
-
-
-
-  if (
-    memory.categoryScores[selected.category]
-  ) {
-
-    memory.decisionLog.reasons.push(
-      "User showed interest in this category"
-    );
-
-  }
-
-
-
-  if (
-    !memory.seenDiscoveries.includes(
-      selected.id
-    )
-  ) {
-
-    memory.decisionLog.reasons.push(
-      "New discovery"
-    );
-
-  }
-
-
-
-  if (
-    selected.rarity === "rare"
-  ) {
-
-    memory.decisionLog.reasons.push(
-      "Rare discovery bonus"
-    );
-
-  }
-
-
-
-  if (
-    memory.profile.curiosityLevel > 10
-  ) {
-
-    memory.decisionLog.reasons.push(
-      "High curiosity level"
-    );
-
-  }
-
+  memory.decisionLog = {
+    selected: selected.id,
+    score: selected.score,
+    reasons
+  };
 
 
   return addPersonality(
     selected,
     memory
   );
-
 }

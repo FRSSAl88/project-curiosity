@@ -14,7 +14,8 @@ const defaultMemory = {
 
   profile: {
     favoriteCategory: null,
-    curiosityLevel: 0
+    curiosityLevel: 0,
+    tagScores: {}
   },
 
   behavior: {
@@ -36,10 +37,7 @@ const defaultMemory = {
   }
 };
 
-
-const memory = loadMemory() || defaultMemory;
-
-
+const memory = loadMemory() || JSON.parse(JSON.stringify(defaultMemory));
 
 function save() {
   saveMemory(memory);
@@ -57,6 +55,10 @@ export function updateMemory(discovery) {
 
   if (!discovery) return;
 
+if (!memory.profile.tagScores) 
+  {
+memory.profile.tagScores = {};
+}
 
   const now = Date.now();
 
@@ -130,13 +132,22 @@ export function updateMemory(discovery) {
   memory.profile.favoriteCategory =
     highestCategory;
 
+// Learn from tags
+if (discovery.tags) {
 
-  save();
+  discovery.tags.forEach(tag => {
+
+    if (!memory.profile.tagScores[tag]) {
+      memory.profile.tagScores[tag] = 0;
+    }
+
+    memory.profile.tagScores[tag]++;
+
+  });
 }
 
-
-
-
+save();
+}
 export function updateFeedback(discovery, type) {
 
   if (!discovery) return;
@@ -192,7 +203,6 @@ export function resetMemory() {
     memory,
     JSON.parse(JSON.stringify(defaultMemory))
   );
-
 
   save();
 }

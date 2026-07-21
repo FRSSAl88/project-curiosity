@@ -1,113 +1,68 @@
 export function calculateScore(discovery, memory) {
-
   let score = 0;
 
   const category = discovery.category;
 
-
-  // اهتمام المستخدم بالفئة
+  // Category interest
   if (memory.categoryScores[category]) {
-
     score += memory.categoryScores[category] * 2;
-
   }
 
-
-  // الفئة المفضلة
+  // Favorite category bonus
   if (
     memory.profile &&
     memory.profile.favoriteCategory === category
   ) {
-
     score += 10;
-
   }
 
-
-
-  // التعلم من Feedback
+  // Tag intelligence
   if (
-    memory.feedback &&
-    memory.feedback.categoryFeedback[category]
+    discovery.tags &&
+    memory.profile &&
+    memory.profile.tagScores
   ) {
+    discovery.tags.forEach((tag) => {
 
-    const feedback =
-      memory.feedback.categoryFeedback[category];
+      if (memory.profile.tagScores[tag]) {
+        score += memory.profile.tagScores[tag] * 3;
+      }
 
-
-    score += feedback.likes * 5;
-
-    score -= feedback.dislikes * 5;
-
+    });
   }
 
-
-
-  // اكتشاف جديد
-  if (
-    !memory.seenDiscoveries.includes(discovery.id)
-  ) {
-
-    score += 8;
-
+  // New discoveries bonus
+  if (!memory.seenDiscoveries.includes(discovery.id)) {
+    score += 5;
   } else {
-
-    score -= 15;
-
+    score -= 10;
   }
 
-
-
-  // تقليل تكرار آخر اكتشاف
-  if (
-    memory.lastDiscovery === discovery.id
-  ) {
-
-    score -= 20;
-
-  }
-
-
-
-  // صعوبة المحتوى
+  // Difficulty
   score += discovery.difficulty || 0;
 
-
-
-  // مكافأة المحتوى النادر
-  if (
-    discovery.rarity === "rare"
-  ) {
-
-    score += 5;
-
-  }
-
-
-
-  // تنويع داخل نفس الفئة
-  const categoryCount =
-    memory.categoryScores[category] || 0;
-
-
-  if (categoryCount > 5) {
-
-    score -= 3;
-
-  }
-
-
-
-  // مستوى الفضول
+  // Curiosity bonus
   if (
     memory.profile &&
     memory.profile.curiosityLevel > 10
   ) {
-
     score += 3;
+  }
+// Diversity Engine
+if (
+  memory.lastDiscovery &&
+  discovery.id !== memory.lastDiscovery
+) {
 
+  if (
+    memory.lastDiscovery.category ===
+    discovery.category
+  ) {
+    score -= 5;
+  } else {
+    score += 3;
   }
 
-
+}
   return score;
 }

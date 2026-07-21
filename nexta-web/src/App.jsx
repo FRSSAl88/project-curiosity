@@ -167,9 +167,20 @@ function App() {
           }
         </p>
 
+{memory.decisionLog.reasons &&
+memory.decisionLog.reasons.length > 0 && (
+  <>
+    <p>Reasons:</p>
 
-        <h4>Feedback</h4>
+    {memory.decisionLog.reasons.map((reason, index) => (
+      <p key={index}>
+        • {reason}
+      </p>
+    ))}
+  </>
+)}
 
+ <h4>Feedback</h4>
 
         <p>
           👍 Likes:
