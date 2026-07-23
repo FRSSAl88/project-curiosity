@@ -64,5 +64,28 @@ if (
   }
 
 }
-  return score;
+
+// Discovery Fatigue Engine
+if (
+  memory.recentDiscoveries &&
+  memory.recentDiscoveries.length > 0
+) {
+
+  const recentCategoryCount =
+    memory.recentDiscoveries.filter(
+      (item) =>
+        item.category === discovery.category
+    ).length;
+
+
+  if (recentCategoryCount >= 5) {
+    score -= 10;
+  }
+
+  if (recentCategoryCount >= 8) {
+    score -= 20;
+  }
+}
+
+ return score;
 }

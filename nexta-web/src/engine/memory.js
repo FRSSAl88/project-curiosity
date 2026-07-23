@@ -10,12 +10,15 @@ const defaultMemory = {
 
   lastDiscovery: null,
 
+  recentDiscoveries: [],
+
   rareCounter: 0,
 
   profile: {
     favoriteCategory: null,
     curiosityLevel: 0,
-    tagScores: {}
+    tagScores: {},
+personality: "Explorer"
   },
 
   behavior: {
@@ -93,7 +96,17 @@ memory.profile.tagScores = {};
 
 
   memory.lastDiscovery = discovery.id;
+  if (!memory.recentDiscoveries) {memory.recentDiscoveries =[];
+  }
 
+memory.recentDiscoveries.push({
+  id: discovery.id,
+  category: discovery.category
+});
+
+if (memory.recentDiscoveries.length > 10) {
+  memory.recentDiscoveries.shift();
+}
 
   const category = discovery.category;
 

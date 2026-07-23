@@ -146,26 +146,46 @@ function App() {
           } ms
         </p>
 
+<h4>NEXTA PERSONALITY</h4>
 
+<p>
+  Current:
+  {
+    memory.profile?.personality ||
+    "Explorer"
+  }
+  </p>
+ <p>Reasons:</p>
 
-        <h4>NEXTA DECISION</h4>
+<ul>
+    {
+    memory.profile?.personalityReasons?.map(
+      (reason, index) => (
+      <li key={index}>
+        {reason}
+    </li>
+    )
+  )
+}
+  </ul>
 
+<h4>NEXTA DECISION</h4>
 
-        <p>
-          Selected:
-          {
-            memory.decisionLog.selected ||
-            "None"
-          }
-        </p>
+<p>
+  Selected:
+  {
+   memory.decisionLog.selected 
+||
+   "None"
+  }
+ </p>
 
-
-        <p>
-          Score:
-          {
-            memory.decisionLog.score || 0
-          }
-        </p>
+ <p>
+     Score:
+        {
+           memory.decisionLog.score || 0
+        }
+     </p>
 
 {memory.decisionLog.reasons &&
 memory.decisionLog.reasons.length > 0 && (
@@ -189,22 +209,20 @@ memory.decisionLog.reasons.length > 0 && (
           }
         </p>
 
-
         <p>
           👎 Dislikes:
           {
             memory.feedback.dislikes
           }
-        </p>
+</p>
+
+</div>
 
 
-
-      </div>
-
-
-    </div>
+</div>
+ 
   );
-}
 
+}
 
 export default App;
