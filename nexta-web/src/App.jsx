@@ -8,14 +8,14 @@ import {
   getMemory,
   updateFeedback
 } from "./engine/memory";
-
+import { buildUserProfile } from "./engine/userProfile";
 
 function App() {
 
   const [discovery, setDiscovery] = useState(null);
   const [memory, setMemory] = useState(getMemory());
   const emotion = detectEmotion()
-
+  const userProfile = buildUserProfile();
   const showDiscovery = () => {
 
     const selected = chooseDiscovery(discoveries);
@@ -163,7 +163,45 @@ function App() {
     emotion.emotion
   }
 </p>
+<h4>NEXTA USER PROFILE</h4>
 
+<p>
+  Personality:
+  {
+    userProfile.personality
+  }
+</p>
+
+<p>
+  Emotion:
+  {
+    userProfile.emotion
+  }
+</p>
+
+<p>
+  Favorite Category:
+  {
+    userProfile.favoriteCategory ||
+    "None"
+  }
+</p>
+
+<p>
+  Top Interests:
+</p>
+
+<ul>
+{
+  userProfile.interests.map(
+    (item, index) => (
+      <li key={index}>
+        {item}
+      </li>
+    )
+  )
+}
+</ul>
 <p>
   Reasons:
 </p>
