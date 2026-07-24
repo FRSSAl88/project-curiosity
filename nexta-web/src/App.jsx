@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-
+import { detectEmotion } from "./engine/emotionAI";
 import discoveries from "./data/discoveries";
 import { chooseDiscovery } from "./engine/intelligence";
 import {
@@ -14,7 +14,7 @@ function App() {
 
   const [discovery, setDiscovery] = useState(null);
   const [memory, setMemory] = useState(getMemory());
-
+  const emotion = detectEmotion()
 
   const showDiscovery = () => {
 
@@ -155,6 +155,31 @@ function App() {
     "Explorer"
   }
   </p>
+<h4>NEXTA EMOTION</h4>
+
+<p>
+  Current:
+  {
+    emotion.emotion
+  }
+</p>
+
+<p>
+  Reasons:
+</p>
+
+<ul>
+  {
+    emotion.reasons.map(
+      (reason, index) => (
+        <li key={index}>
+          {reason}
+        </li>
+      )
+    )
+  }
+</ul>
+
  <p>Reasons:</p>
 
 <ul>
